@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$444 Blessings dApp</title>
+    <title>Blessings dApp</title>
     <style>
         body {
             background-color: #000000;
@@ -21,17 +21,18 @@
             margin-right: auto;
         }
 
-        header {
-            text-align: left;
-            padding: 10px;
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .main-content {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            margin-bottom: 20px;
+            /* Add margin to separate main-content and social-links */
         }
 
         h1 {
@@ -68,47 +69,53 @@
             /* Darker purple on hover */
         }
 
-        .stats {
-            font-size: 14px;
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
         }
 
-        .stats span {
-            color: #00ff00;
-            /* Green text */
-        }
-
-        .stats a {
-            color: #ffffff;
-            /* White text for links */
-            text-decoration: none;
-        }
-
-        .stats a:hover {
-            text-decoration: underline;
+        .social-links a {
+            margin-right: 10px;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.3.6/dist/web3.min.js"></script>
 </head>
 
 <body>
+    <div class="container">
+        <div class="main-content">
+            <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/crystal-ball.png"
+                alt="Crystal Ball" style="width: 25%;">
+            <p id="account">Connect your wallet to claim a daily blessing.</p>
+            <button id="connectButton">Connect to Wallet</button>
+            <button id="claimButton" style="display: none;">Claim Blessings</button>
+            <button id="disconnectButton" style="display: none;">Disconnect Wallet</button>
+        </div>
 
-    <header class="stats">
-        <div>Blessing Faucet: <span style="color: #00ff00;">Active</span></div>
-        <div>$444 Token Address: <a
-                href="https://optimistic.etherscan.io/token/0x017557194713d864367e1f217cfbcf0470247b23"
-                target="_blank">0x017557194713d864367e1f217cfbcf0470247b23</a></div>
-        <div>Faucet Contract: <a href="https://optimistic.etherscan.io/token/0xBb0e398e2369fB1aBFAEd4a7d981eE71DF1586E2"
-                target="_blank">0xBb0e398e2369fB1aBFAEd4a7d981eE71DF1586E2</a></div>
-    </header>
-
-    <div class="main-content">
-        <h1>🔮</h1>
-        <p id="account">Connect your wallet to claim blessings.</p>
-        <button id="connectButton">Connect to Wallet</button>
-        <button id="claimButton" style="display: none;">Claim Blessings</button>
-        <button id="disconnectButton" style="display: none;">Disconnect Wallet</button>
+        <div class="social-links">
+            <a href="https://twitter.com/444token" target="_blank">
+                <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444tokenTwitter.png"
+                    alt="Twitter" style="width: 40px; height: 40px;">
+            </a>
+            <a href="https://t.co/5lukPG8ZiQ" target="_blank">
+                <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444tokenDiscord.png"
+                    alt="Discord" style="width: 40px; height: 40px;">
+            </a>
+            <a href="https://optimistic.etherscan.io/token/0x017557194713d864367e1f217cfbcf0470247b23" target="_blank">
+                <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444TokenOptimismScan.png"
+                    alt="Etherscan" style="width: 40px; height: 40px;">
+            </a>
+            <a href="https://github.com/Empress444/" target="_blank">
+                <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444tokenGithub.png"
+                    alt="GitHub" style="width: 40px; height: 40px;">
+            </a>
+            <a href="https://www.dextools.io/app/en/optimism/pair-explorer/0x9ca6dcaabab451e1bd235c965085811472b27a8c" target="_blank">
+                <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444TokenDEXTools.png"
+                    alt="Dextools" style="width: 40px; height: 40px;">
+            </a>
+        </div>
     </div>
-
 
     <script>
 

@@ -4,38 +4,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blessings Faucet</title>
+    <title>$444 - PROOF-OF-ENLIGHTENMENT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: black;
+            background-color: rgb(64, 2, 77);
             color: white;
-            font-family: 'Courier New', monospace;
-            margin: 0;
-            padding: 20px;
+            font-family: 'Roboto Mono', monospace;
+            margin: 4;
+            padding: 40px;
             text-align: left;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            overflow: hidden;
         }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: calc(100vw + 50px);
+            /* Increase the width by 50 pixels to hide 25 pixels on each side */
+            height: calc(100vh + 50px);
+            /* Increase the height by 50 pixels to hide 25 pixels on each side */
+            background: url('bg.gif') bottom left / 105% 105% fixed;
+            opacity: 0.6;
+            z-index: -1;
+            margin: -25px;
+            /* Offset the negative width and height with negative margins */
+            overflow: hidden;
+            /* Hide the overflow */
+        }
+
+
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px;
-            background-color: #000000;
+            padding: 0px;
+
+            /* Set background color with 24% opacity */
+            border-radius: 18px;
+            /* Adjust the border-radius as needed for rounded edges */
+            z-index: 1;
+            width: 90%;
+            position: absolute;
+            top: 2;
+            /* Ensure the header starts from the top */
         }
 
+
+
+
         header img {
-            width: 45px;
-            height: 45px;
+            width: 80px;
+            height: 80px;
         }
 
         header a {
             color: white;
             text-decoration: none;
-            padding: 0 15px;
+            padding: 0 8px;
         }
 
         h1 {
-            padding-top: 20px;
+            padding-top: 140px;
         }
 
         button {
@@ -93,15 +129,41 @@
             cursor: pointer;
         }
 
-        .main-container {
-            text-align: center;
-        }
-
-
         @keyframes blinking {
             50% {
                 opacity: 0;
             }
+        }
+
+        .title-container {
+            padding: 0px;
+            /* Adjust the padding as needed */
+        }
+
+        .title-container h1 {
+            margin-bottom: 5px;
+            /* Adjust the margin between h1 and h3 */
+        }
+
+        .title-container h3 {
+            margin-top: 5px;
+            /* Adjust the margin between h1 and h3 */
+        }
+
+        h1 {
+            line-height: 0.3;
+            /* Adjust the line-height to move the dollar sign higher */
+        }
+
+        h1 {
+            font-size: 1.2em;
+            /* Adjust the font size for h1 */
+
+        }
+
+        h3 {
+            font-size: 3em;
+            /* Adjust the font size for h3 */
         }
     </style>
 </head>
@@ -114,24 +176,42 @@
                 alt="Logo">
         </div>
         <div>
-            <a href="#">Docs</a>
-            <a href="#">Help</a>
-            <a href="#">About</a>
+            <a href="#">FORGE //</a>
+            <a href="#">FARM //</a>
+            <a href="https://www.dextools.io/app/en/optimism/pair-explorer/0x9ca6dcaabab451e1bd235c965085811472b27a8c">TRADE //</a>
             <button onclick="connectWallet()">Connect Wallet</button>
         </div>
     </header>
 
     <div class="main-container">
-        <h1>Blessings Faucet</h1>
+
+        <div class="title-container">
+            <h1>$444 TOKEN FAUCET</h1>
+            <h3>CLAIM BLESSING</h3>
+        </div>
         <p id="accountAddress">Account Address: Not Connected</p>
         <p id="faucetStatusResult">Faucet Status: </p>
+        <p id="claimStatusResult">Claim Status: </p>
         <p id="lastClaimTimestampResult">Last Claim: </p>
         <p id="totalClaimsResult">Total Claims: </p>
-        <p id="claimStatusResult">Claim Status: </p>
+       
 
         <button onclick="claimBlessing()">Claim Blessing</button>
         <button onclick="disconnectWallet()">Disconnect Wallet</button>
     </div>
+    <footer>
+        <div style="text-align: center; padding: 34px; font-size: 10pt;">
+            <p>Contract: 0x017557194713D864367e1F217cFBCf0470247B23</p>
+            <p>
+                <a href="https://empress444.github.io/blessing-faucet/DARKPAPER.HTML" style="color: white; text-decoration: none;">docs</a> |
+                <a href="http://discord.gg/BerGDBgen8" style="color: white; text-decoration: none;">discord</a> |
+                <a href="https://twitter.com/444token/" style="color: white; text-decoration: none;">x</a> |
+                <a href="https://optimistic.etherscan.io/token/0x017557194713d864367e1f217cfbcf0470247b23" style="color: white; text-decoration: none;">etherscan</a>
+            </p>
+            <p style="color: white;">&copy; 2023-2024 444 TOKEN</p>
+        </div>
+    </footer>
+
 
     <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
     <script src="contractABI.js"></script>
@@ -139,6 +219,7 @@
         // Declare contract at the global scope
         let contract;
         let web3;
+
 
         // Function to format timestamp to HH:MM:SS
         function formatTime(timestamp) {
@@ -170,10 +251,12 @@
                 await fetchDataForConnectedWallet(accounts[0]);
                 await fetchFaucetStatus();
                 await fetchClaimStatus(accounts[0]);
+
             } catch (error) {
                 console.error('Error connecting wallet:', error);
                 document.getElementById('accountAddress').innerText = 'Error connecting wallet';
             }
+
         }
 
         async function claimBlessing() {
@@ -225,21 +308,6 @@
             claimStatusResultElement.innerHTML = `<span style="color: ${isError ? 'red' : 'green'}; font-weight: bold;">${message}</span>`;
         }
 
-
-
-
-
-        function openModal() {
-            document.getElementById('myModal').style.display = 'block';
-
-            // Hide the "Add Referrer" button
-            document.getElementById('addReferrerButton').style.display = 'none';
-        }
-
-
-        function closeModal() {
-            document.getElementById('myModal').style.display = 'none';
-        }
 
         function submitReferral() {
             const referralAddress = document.getElementById('referralAddress').value || '0x4444466289f50cf35ac39642f1358cbf4bb7dd53';
@@ -326,9 +394,21 @@
             }
         }
 
-        window.onload = () => {
-            // Remove the call to loadLast15Events() here
+        window.onload = async () => {
+            try {
+                // Connect wallet
+                await connectWallet();
+
+                // You can add other initialization steps here if needed
+
+            } catch (error) {
+                console.error('Initialization error:', error);
+            }
         };
+
+
+
+
     </script>
 
     <style>

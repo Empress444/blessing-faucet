@@ -4,1016 +4,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" sizes="180x180"
-        href="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32"
-        href="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16"
-        href="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/favicon-16x16.png">
-    <link rel="icon" href="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/favicon.ico"
-        type="image/x-icon">
-    <link rel="manifest" href="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/site.webmanifest">
-    <link rel="mask-icon" href="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/safari-pinned-tab.svg"
-        color="#5bbad5">
-    <title>$444</title>
+    <title>Blessings Faucet</title>
     <style>
         body {
-            background-color: #000000;
-            color: #ffffff;
-            text-align: center;
+            background-color: black;
+            color: white;
+            font-family: 'Courier New', monospace;
             margin: 0;
-            padding: 0;
-            max-width: 940px;
-            margin-left: auto;
-            margin-right: auto;
-            font-family: monospace;
-            /* Set the font to monospace for all text */
-            font-size: 12pt;
-            /* Set the font size to 12pt for all text */
+            padding: 20px;
+            text-align: left;
         }
 
-        .header {
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #000000;
             padding: 10px;
+            background-color: #000000;
         }
 
-        .header img {
-            width: 75px;
-            height: 75px;
+        header img {
+            width: 45px;
+            height: 45px;
         }
 
-        .header a {
-            color: #ffffff;
+        header a {
+            color: white;
             text-decoration: none;
-            margin: 0 10px;
+            padding: 0 15px;
         }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        input {
-            width: 300px;
-            /* Adjust the width as needed */
+        h1 {
+            padding-top: 20px;
         }
 
         button {
-            margin-top: 10px;
-            font-size: 16px;
-            background-color: #500c50;
-            color: #ffffff;
-            padding: 10px 20px;
+            background-color: rgb(68, 20, 68);
+            color: white;
             border: none;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-family: monospace;
-            /* Set the font to monospace for buttons */
+            transition: background-color 0.3s;
         }
 
         button:hover {
-            background-color: #600060;
+            background-color: #761292;
         }
 
-        #connectButton {
-            margin-top: 10px;
-            font-size: 16px;
-            background-color: #500c50;
-            color: #ffffff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-family: monospace;
-            /* Set the font to monospace for the "Connect to Wallet" button */
+        button:active {
+            background-color: #4b0082;
         }
 
-        #connectButton:hover {
-            background-color: #600060;
-        }
-
-        .button-container {
-            display: flex;
-        }
-
-        input {
-            width: 384px;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            margin-top: 10px;
-            background-color: #500c50;
-            /* Purple background color */
-            color: #ffffff;
-            font-family: monospace;
-            font-size: 12pt;
-        }
-
-        /* Style for the modal container */
-        .modal-container {
+        .modal {
             display: none;
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #500c50;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.7);
+            padding-top: 60px;
         }
 
-        /* Style for the close button */
-        .close-button {
-            cursor: pointer;
-            color: #ffffff;
+        .modal-content {
+            background-color: #222;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
             font-weight: bold;
         }
 
-        .button-container button {
-            margin-right: 10px;
+        .close:hover,
+        .close:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .main-container {
+            text-align: center;
+        }
+
+
+        @keyframes blinking {
+            50% {
+                opacity: 0;
+            }
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.3.6/dist/web3.min.js"></script>
 </head>
 
 <body>
 
-    <div class="modal-container" id="helpModal">
-        <p>Welcome to the Blessing Faucet...</p>
-        <ol>
-            <li>Make sure you are using a browser with a Web3 wallet extension like Trust, MetaMask, etc.</li><br>
-            <li>Ensure that your wallet is connected to the Optimism network.</li><br>
-            <li>On mobile, use your wallets built in browser.</li><br>
-            <li>Make sure you have approximately 0.00001-3 Optimism Ethereum for gas fees.</li><br>
-            <li>Enter a referral address or use the default (dev address).</li><br>
-            <li>One claim per day, earn a bonus each consecutive day up to 400%!</li><br>
-        </ol>
-        <button class="close-button" onclick="closeModal()">Close</button>
-    </div>
-
-    <div class="header">
-        <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444TokenLogo.png" alt="Logo">
+    <header>
         <div>
-            <a href="#" onclick="openModal()">help</a> |
-            <a href="#">docs</a>
-            <button id="connectButton">Connect to Wallet</button>
+            <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444TokenLogo.png"
+                alt="Logo">
         </div>
+        <div>
+            <a href="#">Docs</a>
+            <a href="#">Help</a>
+            <a href="#">About</a>
+            <button onclick="connectWallet()">Connect Wallet</button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <h1>Blessings Faucet</h1>
+        <p id="accountAddress">Account Address: Not Connected</p>
+        <p id="faucetStatusResult">Faucet Status: </p>
+        <p id="lastClaimTimestampResult">Last Claim: </p>
+        <p id="totalClaimsResult">Total Claims: </p>
+        <p id="claimStatusResult">Claim Status: </p>
+
+        <button onclick="claimBlessing()">Claim Blessing</button>
+        <button onclick="disconnectWallet()">Disconnect Wallet</button>
     </div>
 
-    <div class="container">
-        <div class="main-content">
-            <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/crystal-ball.png"
-                alt="Crystal Ball" style="width: 14%;">
-            <p id="account">Connect your wallet to claim a daily blessing.</p>
-            <div>
-                <label for="referralAddress"></label>
-                <input type="text" id="referralAddress" placeholder="Enter a Valid Referral Address" maxlength="42">
-            </div>
-            <div class="button-container">
-                <button id="claimButton" disabled>Claim Blessings</button>
-                <button id="autoFillReferrerButton">Auto-Fill Referrer</button>
-            </div>
-
-        </div>
-
-
-        <div class="social-links"><br><br>
-            <a href="https://twitter.com/your_twitter_profile" target="_blank"
-                style="margin-right: 10px; text-decoration: none;">
-                <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444tokenTwitter.png"
-                    alt="Twitter" style="width: 25px; height: 25px;">
-            </a>
-            <a href="https://discord.gg/your_discord_invite" target="_blank"
-                style="margin-right: 10px; text-decoration: none;">
-                <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444tokenDiscord.png"
-                    alt="Discord" style="width: 25px; height: 25px;">
-            </a>
-            <a href="https://etherscan.io/address/your_etherscan_address" target="_blank"
-                style="margin-right: 10px; text-decoration: none;">
-                <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444TokenOptimismScan.png"
-                    alt="Etherscan" style="width: 25px; height: 25px;">
-            </a>
-            <a href="https://github.com/your_github_profile" target="_blank"
-                style="margin-right: 10px; text-decoration: none;">
-                <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444tokenGithub.png"
-                    alt="GitHub" style="width: 25px; height: 25px;">
-            </a>
-            <a href="https://www.dextools.io/" target="_blank" style="text-decoration: none;">
-                <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444TokenDEXTools.png"
-                    alt="Dextools" style="width: 25px; height: 25px;">
-            </a>
-        </div>
-
-
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
+    <script src="contractABI.js"></script>
     <script>
-        // Function to open the modal
-        function openModal() {
-            document.getElementById('helpModal').style.display = 'block';
-        }
-
-        // Function to close the modal
-        function closeModal() {
-            document.getElementById('helpModal').style.display = 'none';
-        }
-
+        // Declare contract at the global scope
+        let contract;
         let web3;
-        let blessingFaucetContract;
-        let userAddress;
-        let claimCooldown = 24 * 60 * 60; // 24 hours in seconds
 
-        // Initialize contract
-        const contractAddress = '0x87c08d5ded10bc7939e168ff10a8b154bb9aaca8';
-        const contractAbi = [
-            {
-                "inputs": [],
-                "stateMutability": "nonpayable",
-                "type": "constructor"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "newAmount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "BlessingAmountUpdated",
-                "type": "event"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    },
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "referrerAddress",
-                        "type": "address"
-                    }
-                ],
-                "name": "BlessingClaimed",
-                "type": "event"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "referrerAddress",
-                        "type": "address"
-                    }
-                ],
-                "name": "claimBlessing",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "deposit",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "anonymous": false,
-                "inputs": [],
-                "name": "FaucetPaused",
-                "type": "event"
-            },
-            {
-                "anonymous": false,
-                "inputs": [],
-                "name": "FaucetResumed",
-                "type": "event"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "newMultiplier",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "GlobalBonusMultiplierUpdated",
-                "type": "event"
-            },
-            {
-                "inputs": [],
-                "name": "pause",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "referrerAddress",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "ReferralBonusFailed",
-                "type": "event"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "newPercentage",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "ReferralBonusPercentageUpdated",
-                "type": "event"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "referrerAddress",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "ReferralBonusSent",
-                "type": "event"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "referrerAddress",
-                        "type": "address"
-                    }
-                ],
-                "name": "ReferralSet",
-                "type": "event"
-            },
-            {
-                "inputs": [],
-                "name": "resume",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "_referralBonusPercentage",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "setReferralBonusPercentage",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "newAmount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "updateBlessingAmount",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "newMultiplier",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "bool",
-                        "name": "isEnabled",
-                        "type": "bool"
-                    }
-                ],
-                "name": "updateGlobalBonusMultiplier",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "newTokenAddress",
-                        "type": "address"
-                    }
-                ],
-                "name": "updateTokenAddress",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "withdrawAll",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "admin",
-                "outputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "blessingAmount",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "name": "blessingStreak",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "checkClaimStatus",
-                "outputs": [
-                    {
-                        "internalType": "bool",
-                        "name": "",
-                        "type": "bool"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    }
-                ],
-                "name": "getLastClaimTimestamp",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "referrerAddress",
-                        "type": "address"
-                    }
-                ],
-                "name": "getNextClaimAmount",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    }
-                ],
-                "name": "getReferrer",
-                "outputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    }
-                ],
-                "name": "getTimeUntilNextClaim",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    }
-                ],
-                "name": "getTotalClaims",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    }
-                ],
-                "name": "getTotalReferralBonuses",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "globalBonusMultiplier",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "isGlobalBonusEnabled",
-                "outputs": [
-                    {
-                        "internalType": "bool",
-                        "name": "",
-                        "type": "bool"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "isPaused",
-                "outputs": [
-                    {
-                        "internalType": "bool",
-                        "name": "",
-                        "type": "bool"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "name": "lastBlessingTime",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "paused",
-                "outputs": [
-                    {
-                        "internalType": "bool",
-                        "name": "",
-                        "type": "bool"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "referralBonusPercentage",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "name": "referrer",
-                "outputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "tokenAddress",
-                "outputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "name": "totalClaims",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "name": "totalReferralBonuses",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            }
-        ];
-
-        window.addEventListener('load', async () => {
-            // Modern dapp browsers
-            if (window.ethereum) {
-                web3 = new Web3(window.ethereum);
-            } else if (window.web3) {
-                web3 = new Web3(web3.currentProvider);
-            } else {
-                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
-                return;
+        // Function to format timestamp to HH:MM:SS
+        function formatTime(timestamp) {
+            if (!timestamp) {
+                return 'N/A';
             }
 
-            // Initialize contract after web3 is ready
-            blessingFaucetContract = new web3.eth.Contract(contractAbi, contractAddress);
+            const date = new Date(timestamp * 1000);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const seconds = date.getSeconds().toString().padStart(2, '0');
 
-            // Connect button event listener
-            const connectButton = document.getElementById('connectButton');
-            connectButton.addEventListener('click', async () => {
-                await connectWallet();
-            });
-
-            // Claim button event listener
-            const claimButton = document.getElementById('claimButton');
-            claimButton.addEventListener('click', async () => {
-                await claimBlessings();
-            });
-
-            // Check if a wallet is connected
-            updateWalletConnection();
-
-            // Set up periodic updates
-            setInterval(() => {
-                updateWalletConnection();
-            }, 1000);
-        });
-
-        const autoFillButton = document.getElementById('autoFillReferrerButton');
-        autoFillButton.addEventListener('click', autoFillReferrer);
-
-        // Function to auto-fill the referrer address
-        function autoFillReferrer() {
-            const referralAddressInput = document.getElementById('referralAddress');
-            const autoFillAddress = '0x4444466289f50Cf35Ac39642f1358cBF4bB7Dd53';
-
-            referralAddressInput.value = autoFillAddress;
-            // Enable/disable claim button based on input value
-            updateClaimButtonStatus();
+            return `${hours}:${minutes}:${seconds}`;
         }
 
-        // Modify the updateWalletConnection function to include claim button status update
-        async function updateWalletConnection() {
-            const accounts = await web3.eth.getAccounts();
-            const accountElement = document.getElementById('account');
-            const connectButton = document.getElementById('connectButton');
-            const claimButton = document.getElementById('claimButton');
-
-            if (accountElement && connectButton && claimButton) {
-                if (accounts.length > 0) {
-                    userAddress = accounts[0];
-                    accountElement.textContent = `Connected with address: ${userAddress}`;
-                    connectButton.style.display = 'none';
-                    claimButton.style.display = 'block';
-                } else {
-                    accountElement.textContent = 'Connect your wallet to claim blessings.';
-                    connectButton.style.display = 'block';
-                    claimButton.style.display = 'none';
-                }
-            } else {
-                console.error('One or more elements not found.');
-            }
-
-            // Enable/disable claim button based on input value
-            updateClaimButtonStatus();
-        }
-
-
-        // Add a new function to update the claim button status
-        function updateClaimButtonStatus() {
-            const referralAddressInput = document.getElementById('referralAddress');
-            const claimButton = document.getElementById('claimButton');
-
-            // Enable/disable claim button based on input value
-            claimButton.disabled = referralAddressInput.value.length !== 42;
-        }
-
-        // Function to handle smart contract interaction errors
-        async function handleContractError(promise) {
-            try {
-                const result = await promise;
-                return result;
-            } catch (error) {
-                console.error('Smart contract interaction error:', error);
-                // Handle error (e.g., show a user-friendly message)
-            }
-        }
-
-        // Function to claim blessings
-        async function claimBlessings() {
-            try {
-                const referralAddress = document.getElementById('referralAddress').value;
-                await handleContractError(
-                    blessingFaucetContract.methods.claimBlessing(referralAddress).send({ from: userAddress })
-                );
-                // Update wallet connection status
-                updateWalletConnection();
-            } catch (error) {
-                console.error('Error claiming blessings:', error);
-            }
-        }
-
-
-        // Function to connect the wallet
         async function connectWallet() {
             try {
-                // Request account access when the user clicks "Connect Wallet"
-                await window.ethereum.request({ method: 'eth_requestAccounts' });
-                // Update wallet connection status
-                updateWalletConnection();
+                // Use ethereum provider directly instead of window.web3
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                console.log('Connected wallet address:', accounts[0]);
+                document.getElementById('accountAddress').innerText = `Account Address: ${accounts[0]}`;
+
+                // Initialize web3
+                web3 = new Web3(window.ethereum);
+
+                // Initialize the contract using web3
+                contract = new web3.eth.Contract(contractABI, '0x87c08d5DeD10bc7939E168Ff10A8B154bb9aAca8');
+
+                await fetchDataForConnectedWallet(accounts[0]);
+                await fetchFaucetStatus();
+                await fetchClaimStatus(accounts[0]);
             } catch (error) {
-                console.error('User denied account access');
+                console.error('Error connecting wallet:', error);
+                document.getElementById('accountAddress').innerText = 'Error connecting wallet';
             }
         }
 
-        async function estimateGasAndSendTransaction() {
-            try {
-                // Estimate gas
-                const gasEstimate = await blessingFaucetContract.methods.yourMethod().estimateGas({ from: userAddress });
+        async function claimBlessing() {
+            const referralAddress = '0x4444466289f50cf35ac39642f1358cbf4bb7dd53';
 
-                // Send transaction with gas estimation
-                const result = await blessingFaucetContract.methods.yourMethod().send({
+            try {
+                // Get the user's selected address
+                const userAddress = ethereum.selectedAddress;
+
+                // Request account access if not already granted
+                if (!userAddress) {
+                    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                    if (!accounts || !accounts.length) {
+                        console.log('User denied account access.');
+                        return;
+                    }
+                }
+
+                // Estimate gas
+                const gasEstimate = await contract.methods.claimBlessing(referralAddress).estimateGas({ from: userAddress });
+
+                console.log('Gas Estimate:', gasEstimate);
+
+                // Send the transaction to claim blessing with the estimated gas
+                const result = await contract.methods.claimBlessing(referralAddress).send({
                     from: userAddress,
                     gas: gasEstimate,
                 });
 
-                console.log('Transaction successful:', result);
+                console.log('Claim Blessing Transaction Result:', result);
+
+                // Fetch and update data after a successful transaction
+                await fetchDataForConnectedWallet(userAddress);
+                await fetchFaucetStatus();
+                await fetchClaimStatus(userAddress);
+
+                // Display success message
+                displayMessage('Blessings claimed!', false);
             } catch (error) {
-                console.error('Error during transaction:', error);
+                console.error('Error claiming blessing:', error);
+
+                // Display error message
+                displayMessage(`Transaction Failed: ${error.message || error}`, true);
             }
+        }
+
+        function displayMessage(message, isError) {
+            const claimStatusResultElement = document.getElementById('claimStatusResult');
+            claimStatusResultElement.innerHTML = `<span style="color: ${isError ? 'red' : 'green'}; font-weight: bold;">${message}</span>`;
         }
 
 
 
-        // Function to claim blessings
-        async function claimBlessings() {
+
+
+        function openModal() {
+            document.getElementById('myModal').style.display = 'block';
+
+            // Hide the "Add Referrer" button
+            document.getElementById('addReferrerButton').style.display = 'none';
+        }
+
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+        }
+
+        function submitReferral() {
+            const referralAddress = document.getElementById('referralAddress').value || '0x4444466289f50cf35ac39642f1358cbf4bb7dd53';
+
+            closeModal();
+
+            console.log('Referral Address:', referralAddress);
+        }
+
+        async function fetchClaimStatus(userAddress) {
             try {
-                // Call the claimBlessing function in the contract
-                const referralAddress = document.getElementById('referralAddress').value;
-                await blessingFaucetContract.methods.claimBlessing(referralAddress).send({ from: userAddress });
-                // Update wallet connection status
-                updateWalletConnection();
+                const lastClaimTimestamp = await contract.methods.getLastClaimTimestamp(userAddress).call();
+                console.log('Last Claim:', lastClaimTimestamp);
+
+                const now = Math.floor(Date.now() / 1000);
+                const oneDayInSeconds = 86400;
+
+                const timeUntilNextClaim = oneDayInSeconds - (now - lastClaimTimestamp);
+
+                const claimStatusResultElement = document.getElementById('claimStatusResult');
+                claimStatusResultElement.innerText = 'Claim Status:';
+
+                if (timeUntilNextClaim <= 0) {
+                    claimStatusResultElement.innerHTML += `<span style="color: green; font-weight: bold;"> Claim Available</span>`;
+                } else {
+                    const formattedLastClaimDate = formatTimestamp(lastClaimTimestamp);
+
+                    claimStatusResultElement.innerHTML += `<span style="color: white; font-weight: bold;">${formattedLastClaimDate}</span>`;
+                }
             } catch (error) {
-                console.error('Error claiming blessings:', error);
+                console.error('Error fetching claim status:', error);
+                document.getElementById('claimStatusResult').innerText = 'Error getting claim status';
             }
         }
 
-        // Event handling
-        blessingFaucetContract.events.BlessingClaimed({ filter: { user: userAddress } })
-            .on('changed', event => {
-                console.log('Blessing Claimed Event:', event);
-                // Add logic to handle the event (e.g., update UI)
-            })
-            .on('error', error => {
-                console.error('Error handling BlessingClaimed event:', error);
-            });
+        function formatTimestamp(timestamp) {
+            if (!timestamp) {
+                return 'N/A';
+            }
 
-        blessingFaucetContract.events.BlessingAmountUpdated()
-            .on('changed', event => {
-                console.log('Blessing Amount Updated Event:', event);
-                // Add logic to handle the event (e.g., update UI)
-            })
-            .on('error', error => {
-                console.error('Error handling BlessingAmountUpdated event:', error);
-            });
+            const date = new Date(timestamp * 1000);
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            const year = date.getFullYear();
 
-        // Helper function to format time in HH:MM:SS
-        function formatTime(seconds) {
-            const hours = Math.floor(seconds / 3600);
-            const minutes = Math.floor((seconds % 3600) / 60);
-            const remainingSeconds = seconds % 60;
-            return `${pad(hours)}:${pad(minutes)}:${pad(remainingSeconds)}`;
+            return `${month}/${day}/${year}`;
         }
 
-        // Helper function to pad single-digit numbers with a leading zero
-        function pad(number) {
-            return number < 10 ? `0${number}` : `${number}`;
+        async function fetchDataForConnectedWallet(userAddress) {
+            try {
+                console.log('Fetching data for connected wallet:', userAddress);
+
+                const totalClaims = await contract.methods.totalClaims(userAddress).call();
+                console.log('Total Claims:', totalClaims);
+                document.getElementById('totalClaimsResult').innerText = `Total Claims: ${totalClaims}`;
+
+                const lastClaimTimestamp = await contract.methods.getLastClaimTimestamp(userAddress).call();
+                console.log('Last Claim Timestamp:', lastClaimTimestamp);
+                const formattedLastClaimDate = formatTimestamp(lastClaimTimestamp);
+                document.getElementById('lastClaimTimestampResult').innerText = `Last Claim: ${formattedLastClaimDate}`;
+            } catch (error) {
+                console.error('Error fetching data for connected wallet:', error);
+                document.getElementById('totalClaimsResult').innerText = 'Error getting total claims';
+                document.getElementById('lastClaimTimestampResult').innerText = 'Error getting last claim timestamp';
+            }
         }
+
+        async function fetchFaucetStatus() {
+            try {
+                const faucetStatus = await contract.methods.paused().call();
+                console.log('Faucet Status:', faucetStatus);
+
+                const faucetStatusResultElement = document.getElementById('faucetStatusResult');
+                faucetStatusResultElement.innerText = 'Faucet Status:';
+
+                if (faucetStatus) {
+                    faucetStatusResultElement.innerHTML += `<span style="color: red; font-weight: bold; animation: blinking 1s infinite;"> Disabled</span>`;
+                } else {
+                    faucetStatusResultElement.innerHTML += `<span style="color: green; font-weight: bold;"> Active</span>`;
+                }
+            } catch (error) {
+                console.error('Error fetching faucet status:', error);
+                document.getElementById('faucetStatusResult').innerText = 'Error getting faucet status';
+            }
+        }
+
+        window.onload = () => {
+            // Remove the call to loadLast15Events() here
+        };
     </script>
+
+    <style>
+        @keyframes blinking {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
 </body>
 
 </html>

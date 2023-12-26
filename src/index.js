@@ -8,24 +8,6 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import contractAbi from './ContractAbi';
 import Web3 from 'web3';
 
-// Add the handleDropdownItemClick function
-function handleDropdownItemClick(item) {
-  if (item === 'Item 1') {
-    window.open('https://app.uniswap.org/tokens/optimism/0x017557194713d864367e1f217cfbcf0470247b23', '_blank');
-  } else if (item === 'Item 2') {
-    window.open('https://www.dextools.io/app/en/optimism/pair-explorer/0x9ca6dcaabab451e1bd235c965085811472b27a8c', '_blank');
-  } else if (item === 'Item 3') {
-    addCustomTokenToMetaMask('0x017557194713D864367e1F217cFBCf0470247B23');
-  }
-  // Add more conditions for other items if needed
-}
-
-// Add the hideDropdown function
-function hideDropdown() {
-  const dropdownContent = document.getElementById('dropdownContent');
-  dropdownContent.style.display = 'none';
-}
-
 window.connectWallet = async function connectWallet() {
   try {
     const provider = await detectEthereumProvider();
@@ -38,7 +20,7 @@ window.connectWallet = async function connectWallet() {
   } catch (error) {
     console.error('Error connecting to MetaMask:', error);
   }
-};
+}
 
 window.toggleDropdown = function toggleDropdown() {
   const dropdownContent = document.getElementById('dropdownContent');
@@ -50,6 +32,11 @@ window.toggleDropdown = function toggleDropdown() {
     isDropdownHovered = true;
   }
 };
+
+// Add event listeners for both click and touch events on the dropdown button
+const tokenButton = document.querySelector('.tokenButton');
+tokenButton.addEventListener("click", handleTokenButtonClick);
+tokenButton.addEventListener("touchend", handleTokenButtonClick);
 
 // Add a new mouseenter event listener for the dropdown content
 document.getElementById('dropdownContent').addEventListener("mouseenter", function () {
@@ -288,6 +275,15 @@ async function getTotalReferralBonuses(account) {
     document.querySelector('.totalReferralBonuses').innerHTML = `${totalReferralBonusesEther} $444`;
   } catch (error) {
     console.error('Error fetching total referral bonuses:', error);
+  }
+}
+
+// Function to handle both click and touch events on the 444 token button
+function handleTokenButtonClick() {
+  if (isDropdownOpen) {
+    hideDropdown();
+  } else {
+    toggleDropdown();
   }
 }
 

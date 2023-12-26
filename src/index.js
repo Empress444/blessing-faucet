@@ -1,10 +1,30 @@
 let contract;
 let account;
 let web3;
+let isDropdownOpen = false;
+let isDropdownHovered = false;
 
 import detectEthereumProvider from '@metamask/detect-provider';
 import contractAbi from './ContractAbi';
 import Web3 from 'web3';
+
+// Add the handleDropdownItemClick function
+function handleDropdownItemClick(item) {
+  if (item === 'Item 1') {
+    window.open('https://app.uniswap.org/tokens/optimism/0x017557194713d864367e1f217cfbcf0470247b23', '_blank');
+  } else if (item === 'Item 2') {
+    window.open('https://www.dextools.io/app/en/optimism/pair-explorer/0x9ca6dcaabab451e1bd235c965085811472b27a8c', '_blank');
+  } else if (item === 'Item 3') {
+    addCustomTokenToMetaMask('0x017557194713D864367e1F217cFBCf0470247B23');
+  }
+  // Add more conditions for other items if needed
+}
+
+// Add the hideDropdown function
+function hideDropdown() {
+  const dropdownContent = document.getElementById('dropdownContent');
+  dropdownContent.style.display = 'none';
+}
 
 window.connectWallet = async function connectWallet() {
   try {
@@ -18,7 +38,49 @@ window.connectWallet = async function connectWallet() {
   } catch (error) {
     console.error('Error connecting to MetaMask:', error);
   }
-}
+};
+
+window.toggleDropdown = function toggleDropdown() {
+  const dropdownContent = document.getElementById('dropdownContent');
+  isDropdownOpen = !isDropdownOpen;
+  dropdownContent.style.display = isDropdownOpen ? 'block' : 'none';
+
+  // If the dropdown is open, set a flag to indicate that it's being hovered
+  if (isDropdownOpen) {
+    isDropdownHovered = true;
+  }
+};
+
+// Add a new mouseenter event listener for the dropdown content
+document.getElementById('dropdownContent').addEventListener("mouseenter", function () {
+  // Set the flag to indicate that the dropdown is being hovered
+  isDropdownHovered = true;
+});
+
+// Add a new mouseleave event listener for the dropdown button
+document.querySelector('.tokenButton').addEventListener("mouseleave", function () {
+  // If the dropdown is open and not being hovered, display it
+  if (isDropdownOpen && !isDropdownHovered) {
+    const dropdownContent = document.getElementById('dropdownContent');
+    dropdownContent.style.display = 'block';
+  }
+});
+
+// Update the existing mouseleave event listener for the dropdown content
+document.getElementById('dropdownContent').addEventListener("mouseleave", function () {
+  // Set the flag to indicate that the dropdown is not being hovered
+  isDropdownHovered = false;
+  hideDropdown();
+});
+
+// Add a new mouseenter event listener for the dropdown button
+document.querySelector('.tokenButton').addEventListener("mouseenter", function () {
+  // If the dropdown is open and not being hovered, display it
+  if (document.getElementById('dropdownContent').style.display === 'block' && !isDropdownHovered) {
+    const dropdownContent = document.getElementById('dropdownContent');
+    dropdownContent.style.display = 'block';
+  }
+});
 
 async function startApp(provider) {
   if (provider !== window.ethereum) {
@@ -153,11 +215,6 @@ function isValidAddress(address) {
   // If all checks pass, the address is considered valid
   return true;
 }
-
-
-
-
-
 
 async function getTotalClaims(account) {
   try {

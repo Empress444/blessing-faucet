@@ -2,422 +2,185 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$444 - PROOF-OF-ENLIGHTENMENT</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: rgb(64, 2, 77);
-            color: white;
-            font-family: 'Roboto Mono', monospace;
-            margin: 4;
-            padding: 40px;
-            text-align: left;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            position: relative;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>444 Token DApp</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+    }
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: calc(100vw + 50px);
-            /* Increase the width by 50 pixels to hide 25 pixels on each side */
-            height: calc(100vh + 50px);
-            /* Increase the height by 50 pixels to hide 25 pixels on each side */
-            background: url('bg.gif') bottom left / 105% 105% fixed;
-            opacity: 0.6;
-            z-index: -1;
-            margin: -25px;
-            /* Offset the negative width and height with negative margins */
-            overflow: hidden;
-            /* Hide the overflow */
-        }
+    .app {
+      text-align: center;
+    }
 
+    .header {
+      background-color: #4F1566;
+      padding: 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      /* Align items vertically in the header */
+      justify-content: space-between;
+    }
 
+    .logo {
+      font-size: 1.5em;
+      margin-top: 5px;
+      /* Adjust the margin-top to align with the button */
+    }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0px;
-
-            /* Set background color with 24% opacity */
-            border-radius: 18px;
-            /* Adjust the border-radius as needed for rounded edges */
-            z-index: 1;
-            width: 90%;
-            position: absolute;
-            top: 2;
-            /* Ensure the header starts from the top */
-        }
+    .connect-wallet {
+      cursor: pointer;
+      padding: 10px 20px;
+      background-color: white;
+      color: #4F1566;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      height: 30px;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
 
+    .connect-wallet:hover {
+      background-color: #3c0f4d;
+      color: #ffffff;
+      /* Darken the hover color */
+    }
 
+    .main {
+      padding: 20px;
+    }
 
-        header img {
-            width: 80px;
-            height: 80px;
-        }
+    .panel {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
 
-        header a {
-            color: white;
-            text-decoration: none;
-            padding: 0 8px;
-        }
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: 10px;
+      margin-bottom: 10px;
+      text-align: left;
+    }
 
-        h1 {
-            padding-top: 140px;
-        }
+    .referral-input {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 10px;
+    }
 
-        button {
-            background-color: rgb(68, 20, 68);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+    .claim-button {
+      cursor: pointer;
+      padding: 10px 20px;
+      background-color: #4F1566;
+      /* Updated color */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      margin-bottom: 10px;
+      transition: background-color 0.3s ease;
+    }
 
-        button:hover {
-            background-color: #761292;
-        }
+    .claim-button:hover {
+      background-color: #3c0f4d;
+      /* Darken the hover color */
+    }
 
-        button:active {
-            background-color: #4b0082;
-        }
+    .claim-status {
+      margin-top: 10px;
+      font-weight: bold;
+    }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.7);
-            padding-top: 60px;
-        }
+    .isClaim-Available {
+      margin-top: 10px;
+      font-weight: bold;
+    }
 
-        .modal-content {
-            background-color: #222;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            border-radius: 8px;
-        }
+    .activity-feed {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      text-align: left;
+    }
 
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
+    .activity-feed h2 {
+      margin-bottom: 10px;
+    }
 
-        .close:hover,
-        .close:focus {
-            color: white;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        @keyframes blinking {
-            50% {
-                opacity: 0;
-            }
-        }
-
-        .title-container {
-            padding: 0px;
-            /* Adjust the padding as needed */
-        }
-
-        .title-container h1 {
-            margin-bottom: 5px;
-            /* Adjust the margin between h1 and h3 */
-        }
-
-        .title-container h3 {
-            margin-top: 5px;
-            /* Adjust the margin between h1 and h3 */
-        }
-
-        h1 {
-            line-height: 0.3;
-            /* Adjust the line-height to move the dollar sign higher */
-        }
-
-        h1 {
-            font-size: 1.2em;
-            /* Adjust the font size for h1 */
-
-        }
-
-        h3 {
-            font-size: 3em;
-            /* Adjust the font size for h3 */
-        }
-    </style>
+    .footer {
+      background-color: #4F1566;
+      color: white;
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      left: 0;
+      
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+  <script async src="https://c0f4f41c-2f55-4863-921b-sdk-docs.github.io/cdn/metamask-sdk.js"></script>
 </head>
 
 <body>
 
-    <header>
-        <div>
-            <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444TokenLogo.png"
-                alt="Logo">
-        </div>
-        <div>
-            <a href="#">FORGE //</a>
-            <a href="#">FARM //</a>
-            <a href="https://www.dextools.io/app/en/optimism/pair-explorer/0x9ca6dcaabab451e1bd235c965085811472b27a8c">TRADE //</a>
-            <button onclick="connectWallet()">Connect Wallet</button>
-        </div>
+  <div class="app">
+    <header class="header">
+      <!-- Updated img tag with the desired size -->
+      <div class="logo"><img
+          src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444TokenLogo.png" alt="Logo"
+          style="width: 80px; height: 80px;"></div>
+      <div class="connect-wallet" onclick="connectWallet()">
+        Connect Wallet
+      </div>
     </header>
 
-    <div class="main-container">
+    <main class="main">
+      <div class="panel">
+        <div class="stats">
+          <div><h2>444 Token Faucet</h2></div>
+          <div><h1>Claim a Blessing</h1></div>
+          <div><b>User Address: </b><span class="showAccount">N/A</span></div>
+          <div><b>Total Claims: </b><span class="total-claims">Wallet not connected</span></div>
+          <div><b>Last Claim:</b> <span class="last-claim">Wallet not connected</span></div>
+          <div><b>Total Referral Bonuses: </b><span class="totalReferralBonuses">Wallet not connected</span></div>
+          <div class="claim-status" id="claimStatus">Loading...</div>
 
-        <div class="title-container">
-            <h1>$444 TOKEN FAUCET</h1>
-            <h3>CLAIM BLESSING</h3>
         </div>
-        <p id="accountAddress">Account Address: Not Connected</p>
-        <p id="faucetStatusResult">Faucet Status: </p>
-        <p id="claimStatusResult">Claim Status: </p>
-        <p id="lastClaimTimestampResult">Last Claim: </p>
-        <p id="totalClaimsResult">Total Claims: </p>
-       
 
-        <button onclick="claimBlessing()">Claim Blessing</button>
-        <button onclick="disconnectWallet()">Disconnect Wallet</button>
-    </div>
-    <footer>
-        <div style="text-align: center; padding: 34px; font-size: 10pt;">
-            <p>Contract: 0x017557194713D864367e1F217cFBCf0470247B23</p>
-            <p>
-                <a href="https://empress444.github.io/blessing-faucet/DARKPAPER.HTML" style="color: white; text-decoration: none;">docs</a> |
-                <a href="http://discord.gg/BerGDBgen8" style="color: white; text-decoration: none;">discord</a> |
-                <a href="https://twitter.com/444token/" style="color: white; text-decoration: none;">x</a> |
-                <a href="https://optimistic.etherscan.io/token/0x017557194713d864367e1f217cfbcf0470247b23" style="color: white; text-decoration: none;">etherscan</a>
-            </p>
-            <p style="color: white;">&copy; 2023-2024 444 TOKEN</p>
-        </div>
-    </footer>
+        <input type="text" placeholder="Referral Address (optional)" class="referral-input" id="referralInput" />
 
+        <div id="errorMessage" style="color: red; margin-top: 10px;"></div>
+        <button class="claim-button" onclick="claimBlessing()">Claim Blessing</button>
+  
 
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
-    <script src="contractABI.js"></script>
-    <script>
-        // Declare contract at the global scope
-        let contract;
-        let web3;
+      </div>
 
+      
+      <div class="activity-feed">
+        <h2>Activity Feed</h2>
+        <iframe src="leaders.html" frameborder="0" width="100%" height="300"></iframe>
+      </div>
+      
+      
 
-        // Function to format timestamp to HH:MM:SS
-        function formatTime(timestamp) {
-            if (!timestamp) {
-                return 'N/A';
-            }
+      <footer class="footer">
+        <div>About | Contact | Socials</div>
+      </footer>
+  </div>
 
-            const date = new Date(timestamp * 1000);
-            const hours = date.getHours().toString().padStart(2, '0');
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            const seconds = date.getSeconds().toString().padStart(2, '0');
-
-            return `${hours}:${minutes}:${seconds}`;
-        }
-
-        async function connectWallet() {
-            try {
-                // Use ethereum provider directly instead of window.web3
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                console.log('Connected wallet address:', accounts[0]);
-                document.getElementById('accountAddress').innerText = `Account Address: ${accounts[0]}`;
-
-                // Initialize web3
-                web3 = new Web3(window.ethereum);
-
-                // Initialize the contract using web3
-                contract = new web3.eth.Contract(contractABI, '0x87c08d5DeD10bc7939E168Ff10A8B154bb9aAca8');
-
-                await fetchDataForConnectedWallet(accounts[0]);
-                await fetchFaucetStatus();
-                await fetchClaimStatus(accounts[0]);
-
-            } catch (error) {
-                console.error('Error connecting wallet:', error);
-                document.getElementById('accountAddress').innerText = 'Error connecting wallet';
-            }
-
-        }
-
-        async function claimBlessing() {
-            const referralAddress = '0x4444466289f50cf35ac39642f1358cbf4bb7dd53';
-
-            try {
-                // Get the user's selected address
-                const userAddress = ethereum.selectedAddress;
-
-                // Request account access if not already granted
-                if (!userAddress) {
-                    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-                    if (!accounts || !accounts.length) {
-                        console.log('User denied account access.');
-                        return;
-                    }
-                }
-
-                // Estimate gas
-                const gasEstimate = await contract.methods.claimBlessing(referralAddress).estimateGas({ from: userAddress });
-
-                console.log('Gas Estimate:', gasEstimate);
-
-                // Send the transaction to claim blessing with the estimated gas
-                const result = await contract.methods.claimBlessing(referralAddress).send({
-                    from: userAddress,
-                    gas: gasEstimate,
-                });
-
-                console.log('Claim Blessing Transaction Result:', result);
-
-                // Fetch and update data after a successful transaction
-                await fetchDataForConnectedWallet(userAddress);
-                await fetchFaucetStatus();
-                await fetchClaimStatus(userAddress);
-
-                // Display success message
-                displayMessage('Blessings claimed!', false);
-            } catch (error) {
-                console.error('Error claiming blessing:', error);
-
-                // Display error message
-                displayMessage(`Transaction Failed: ${error.message || error}`, true);
-            }
-        }
-
-        function displayMessage(message, isError) {
-            const claimStatusResultElement = document.getElementById('claimStatusResult');
-            claimStatusResultElement.innerHTML = `<span style="color: ${isError ? 'red' : 'green'}; font-weight: bold;">${message}</span>`;
-        }
-
-
-        function submitReferral() {
-            const referralAddress = document.getElementById('referralAddress').value || '0x4444466289f50cf35ac39642f1358cbf4bb7dd53';
-
-            closeModal();
-
-            console.log('Referral Address:', referralAddress);
-        }
-
-        async function fetchClaimStatus(userAddress) {
-            try {
-                const lastClaimTimestamp = await contract.methods.getLastClaimTimestamp(userAddress).call();
-                console.log('Last Claim:', lastClaimTimestamp);
-
-                const now = Math.floor(Date.now() / 1000);
-                const oneDayInSeconds = 86400;
-
-                const timeUntilNextClaim = oneDayInSeconds - (now - lastClaimTimestamp);
-
-                const claimStatusResultElement = document.getElementById('claimStatusResult');
-                claimStatusResultElement.innerText = 'Claim Status:';
-
-                if (timeUntilNextClaim <= 0) {
-                    claimStatusResultElement.innerHTML += `<span style="color: green; font-weight: bold;"> Claim Available</span>`;
-                } else {
-                    const formattedLastClaimDate = formatTimestamp(lastClaimTimestamp);
-
-                    claimStatusResultElement.innerHTML += `<span style="color: white; font-weight: bold;">${formattedLastClaimDate}</span>`;
-                }
-            } catch (error) {
-                console.error('Error fetching claim status:', error);
-                document.getElementById('claimStatusResult').innerText = 'Error getting claim status';
-            }
-        }
-
-        function formatTimestamp(timestamp) {
-            if (!timestamp) {
-                return 'N/A';
-            }
-
-            const date = new Date(timestamp * 1000);
-            const month = (date.getMonth() + 1).toString().padStart(2, '0');
-            const day = date.getDate().toString().padStart(2, '0');
-            const year = date.getFullYear();
-
-            return `${month}/${day}/${year}`;
-        }
-
-        async function fetchDataForConnectedWallet(userAddress) {
-            try {
-                console.log('Fetching data for connected wallet:', userAddress);
-
-                const totalClaims = await contract.methods.totalClaims(userAddress).call();
-                console.log('Total Claims:', totalClaims);
-                document.getElementById('totalClaimsResult').innerText = `Total Claims: ${totalClaims}`;
-
-                const lastClaimTimestamp = await contract.methods.getLastClaimTimestamp(userAddress).call();
-                console.log('Last Claim Timestamp:', lastClaimTimestamp);
-                const formattedLastClaimDate = formatTimestamp(lastClaimTimestamp);
-                document.getElementById('lastClaimTimestampResult').innerText = `Last Claim: ${formattedLastClaimDate}`;
-            } catch (error) {
-                console.error('Error fetching data for connected wallet:', error);
-                document.getElementById('totalClaimsResult').innerText = 'Error getting total claims';
-                document.getElementById('lastClaimTimestampResult').innerText = 'Error getting last claim timestamp';
-            }
-        }
-
-        async function fetchFaucetStatus() {
-            try {
-                const faucetStatus = await contract.methods.paused().call();
-                console.log('Faucet Status:', faucetStatus);
-
-                const faucetStatusResultElement = document.getElementById('faucetStatusResult');
-                faucetStatusResultElement.innerText = 'Faucet Status:';
-
-                if (faucetStatus) {
-                    faucetStatusResultElement.innerHTML += `<span style="color: red; font-weight: bold; animation: blinking 1s infinite;"> Disabled</span>`;
-                } else {
-                    faucetStatusResultElement.innerHTML += `<span style="color: green; font-weight: bold;"> Active</span>`;
-                }
-            } catch (error) {
-                console.error('Error fetching faucet status:', error);
-                document.getElementById('faucetStatusResult').innerText = 'Error getting faucet status';
-            }
-        }
-
-        window.onload = async () => {
-            try {
-                // Connect wallet
-                await connectWallet();
-
-                // You can add other initialization steps here if needed
-
-            } catch (error) {
-                console.error('Initialization error:', error);
-            }
-        };
-
-
-
-
-    </script>
-
-    <style>
-        @keyframes blinking {
-            50% {
-                opacity: 0;
-            }
-        }
-    </style>
+  <!-- No need for the previous inline script, as it's now in main.js -->
+  <script async src="dist/main.js"></script>
 </body>
 
 </html>

@@ -4,7 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>444 Token DApp</title>
+  <title>444 Token - Proof-of-Enlightenment</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/favicon-16x16.png">
+  <link rel="icon" href="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/favicon.ico" type="image/x-icon">
+  <link rel="manifest" href="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/site.webmanifest">
+  <link rel="mask-icon" href="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/safari-pinned-tab.svg" color="#5bbad5">
+
   <style>
     body {
       margin: 0;
@@ -21,14 +28,17 @@
       color: white;
       display: flex;
       align-items: center;
-      /* Align items vertically in the header */
       justify-content: space-between;
     }
 
     .logo {
       font-size: 1.5em;
       margin-top: 5px;
-      /* Adjust the margin-top to align with the button */
+    }
+
+    .buttons-container {
+      display: flex;
+      align-items: center;
     }
 
     .connect-wallet {
@@ -39,18 +49,77 @@
       border: none;
       border-radius: 5px;
       font-size: 1em;
-      height: 30px;
+      margin-bottom: 10px;
       transition: background-color 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
-
 
     .connect-wallet:hover {
       background-color: #3c0f4d;
-      color: #ffffff;
-      /* Darken the hover color */
+      color: white;
+    }
+
+    .tokenButton {
+      cursor: pointer;
+      padding: 10px 20px;
+      background-color: #4F1566;
+      color: white;
+      border-radius: 5px;
+      font-size: 1em;
+      margin-bottom: 10px;
+      transition: background-color 0.3s ease;
+      position: relative;
+      margin-right: 10px;
+    }
+
+    .tokenButton::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 1px solid white;
+      border-radius: 5px;
+      pointer-events: none;
+    }
+
+    .tokenButton:hover::before {
+      border-color: #ffffff;
+    }
+
+    .tokenButton:hover {
+      background-color: #3c0f4d;
+      box-shadow: 0 0 20px rgba(127, 0, 255, 1);
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #3c0f4d;;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .tokenButton:hover .dropdown-content,
+    .dropdown-content:hover {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: rgb(255, 253, 253);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #4F1566;
     }
 
     .main {
@@ -73,16 +142,17 @@
     }
 
     .referral-input {
-      width: calc(100% - 20px);
+      width: calc(80% - 20px);
       padding: 10px;
       margin-bottom: 10px;
+      
     }
 
-    .claim-button {
+    .claim-button,
+    .tokenButton {
       cursor: pointer;
       padding: 10px 20px;
       background-color: #4F1566;
-      /* Updated color */
       color: white;
       border: none;
       border-radius: 5px;
@@ -91,16 +161,13 @@
       transition: background-color 0.3s ease;
     }
 
-    .claim-button:hover {
+    .claim-button:hover,
+    .tokenButton:hover {
       background-color: #3c0f4d;
-      /* Darken the hover color */
+      box-shadow: 0 0 20px rgba(127, 0, 255, 1);
     }
 
-    .claim-status {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
+    .claim-status,
     .isClaim-Available {
       margin-top: 10px;
       font-weight: bold;
@@ -125,7 +192,6 @@
       bottom: 0;
       width: 100%;
       left: 0;
-      
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
@@ -136,20 +202,38 @@
 
   <div class="app">
     <header class="header">
-      <!-- Updated img tag with the desired size -->
-      <div class="logo"><img
-          src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444TokenLogo.png" alt="Logo"
-          style="width: 80px; height: 80px;"></div>
-      <div class="connect-wallet" onclick="connectWallet()">
-        Connect Wallet
+      <div class="logo">
+        <img src="https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444TokenLogo.png" alt="Logo"
+          style="width: 80px; height: 80px;">
+      </div>
+      <div class="buttons-container">
+        <!-- New dropdown for $444 -->
+        <div class="dropdown">
+          <button class="tokenButton" onclick="toggleDropdown()">444 Token</button>
+          <div class="dropdown-content" id="dropdownContent">
+            <a href="#" onclick="handleDropdownItemClick('Item 1')">Buy $444</a>
+            <a href="#" onclick="handleDropdownItemClick('Item 2')">Charts</a>
+            <a href="#" onclick="handleDropdownItemClick('Item 3')">Add to MetaMask</a>
+          </div>
+        </div>
+        <!-- Connect Wallet button -->
+        <div class="connect-wallet" onclick="connectWallet()">
+          Connect Wallet
+        </div>
       </div>
     </header>
+
+
 
     <main class="main">
       <div class="panel">
         <div class="stats">
-          <div><h2>444 Token Faucet</h2></div>
-          <div><h1>Claim a Blessing</h1></div>
+          <div>
+            <h2>444 Token Faucet</h2>
+          </div>
+          <div>
+            <h1>Claim a Blessing</h1>
+          </div>
           <div><b>User Address: </b><span class="showAccount">N/A</span></div>
           <div><b>Total Claims: </b><span class="total-claims">Wallet not connected</span></div>
           <div><b>Last Claim:</b> <span class="last-claim">Wallet not connected</span></div>
@@ -162,22 +246,58 @@
 
         <div id="errorMessage" style="color: red; margin-top: 10px;"></div>
         <button class="claim-button" onclick="claimBlessing()">Claim Blessing</button>
-  
+
 
       </div>
 
-      
+
       <div class="activity-feed">
         <h2>Activity Feed</h2>
         <iframe src="leaders.html" frameborder="0" width="100%" height="300"></iframe>
       </div>
-      
-      
+
+
 
       <footer class="footer">
         <div>About | Contact | Socials</div>
       </footer>
   </div>
+ <!-- Add this script tag to your HTML file -->
+<script>
+  function addCustomTokenToMetaMask(tokenAddress, symbol, decimals) {
+    ethereum.request({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20',
+        options: {
+          address: tokenAddress,
+          symbol: symbol || 'YourTokenSymbol',
+          decimals: decimals || 18,
+          image: 'https://raw.githubusercontent.com/Empress444/blessing-faucet/main/imgs/444TokenLogo.png',
+        },
+      },
+    }).then((success) => {
+      if (success) {
+        console.log('Token added to MetaMask');
+      } else {
+        console.error('Error adding token to MetaMask');
+      }
+    }).catch((error) => {
+      console.error('MetaMask request error:', error);
+    });
+  }
+
+  function handleDropdownItemClick(item) {
+    if (item === 'Item 1') {
+      window.open('https://app.uniswap.org/tokens/optimism/0x017557194713d864367e1f217cfbcf0470247b23', '_blank');
+    } else if (item === 'Item 2') {
+      window.open('https://www.dextools.io/app/en/optimism/pair-explorer/0x9ca6dcaabab451e1bd235c965085811472b27a8c', '_blank');
+    } else if (item === 'Item 3') {
+      addCustomTokenToMetaMask('0x017557194713D864367e1F217cFBCf0470247B23', '444', 18);
+    }
+    // Add more conditions for other items if needed
+  }
+</script>
 
   <!-- No need for the previous inline script, as it's now in main.js -->
   <script async src="dist/main.js"></script>
